@@ -2,13 +2,14 @@ name: Rebuild e publicar blog
 
 # Roda todo dia às 09:00 BRT (12:00 UTC, BRT = UTC-3) -- é isso que faz os posts
 # agendados (publish-schedule.json) entrarem no ar sozinhos, sem ninguém tocar em nada.
-# Também roda em qualquer push na main (edição manual, post novo) e pode ser disparado
-# manualmente via "Run workflow" no GitHub, pra testar sem esperar o horário.
+# Também roda em qualquer push na master (branch padrão deste repo -- "gh repo create
+# --source=. --push" manteve o nome local, nunca renomeado pra "main") e pode ser
+# disparado manualmente via "Run workflow" no GitHub, pra testar sem esperar o horário.
 on:
   schedule:
     - cron: "0 12 * * *"
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch: {}
 
 jobs:
