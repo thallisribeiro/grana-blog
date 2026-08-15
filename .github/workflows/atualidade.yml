@@ -1,0 +1,156 @@
+name: Post de atualidade (pesquisa e escreve sozinho)
+
+# Fluxo separado dos 60 posts evergreen do rebuild.yml: todo dia às 07:30 BRT
+# (10:30 UTC), pesquisa o que está em alta em finanças pessoais no Brasil e
+# publica um post reagindo no mesmo dia. Publica direto, sem aprovação prévia
+# (decisão do usuário, 2026-08-15) -- nunca inventa dado/fonte, isso é regra
+# explícita no prompt abaixo. Roda via Claude Code GitHub Action (não a rotina
+# CCR da Anthropic -- essa só tinha acesso de leitura ao repo, achado real em
+# 2026-08-15 depois de testar; o GITHUB_TOKEN padrão do Actions, usado aqui,
+# já tem escrita confirmada -- é o mesmo mecanismo que o rebuild.yml usa pra
+# commitar de volta o cronograma).
+on:
+  schedule:
+    - cron: "30 10 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  post-atualidade:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Pesquisar, escrever e commitar o post do dia
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Você mantém o blog do Grana (site financeiro pessoal em português do Brasil,
+            blog.suagrana.app). Você está rodando direto no checkout do repositório
+            thallisribeiro/grana-blog -- os arquivos estão em ./content/*.md e
+            ./publish-schedule.json, na raiz. O blog já tem 60 posts atemporais
+            pré-agendados; sua tarefa é um segundo fluxo, reativo: publicar HOJE um
+            post sobre o que está em alta em finanças pessoais no Brasil.
+
+            PASSO 1 -- Pesquisa (use WebSearch): procure notícias de HOJE ou dos
+            últimos 1-2 dias sobre finanças pessoais no Brasil -- decisão do
+            Copom/Selic, resolução do Banco Central, medida do governo sobre
+            crédito/imposto, prazo fiscal (IR, FGTS), dado novo do IBGE sobre
+            inflação/endividamento, mudança de regra de cartão/rotativo/cheque
+            especial. Priorize fontes oficiais (bcb.gov.br, gov.br, ibge.gov.br,
+            agenciabrasil.ebc.com.br) ou grande imprensa (Valor, Folha, G1,
+            InfoMoney) citando essas fontes. Confira em ./publish-schedule.json e
+            nos nomes de arquivo em ./content/ (padrão "atualidade-AAAA-MM-DD-*")
+            se esse assunto específico já não foi coberto num post recente.
+
+            Se não achar nada genuinamente novo/relevante hoje (não force um post
+            fraco sobre um assunto velho): pule a publicação, e no PASSO 6 diga
+            apenas "sem novidade relevante hoje, não publiquei" -- não crie nenhum
+            arquivo nem commit nesse caso.
+
+            PASSO 2 -- Escolha 1 assunto, o mais relevante/recente.
+
+            PASSO 3 -- Escreva o post. Regra inegociável: NUNCA invente número,
+            taxa, lei ou fonte -- todo dado citado tem que vir de verdade da
+            pesquisa do passo 1. Se não tiver certeza de um número, não cite o
+            número.
+
+            Formato exato (copie a estrutura, é o que o site espera). Exemplo real
+            de um post existente do mesmo blog, pra você seguir o tom e a estrutura
+            (direto, sem economês, 2ª pessoa "você", H2 organizando o argumento,
+            sempre fechando com um parágrafo que liga o assunto ao cálculo de custo
+            de sobrevivência do app Grana com um link inline):
+
+            === BLOG POST ===
+            Título: Juros do Cheque Especial Estão Quase no Teto Legal: Entenda o Que Isso Significa
+            Meta description: O Banco Central mostra: os juros do cheque especial já estão quase no teto legal de 151% ao ano. Entenda o que isso significa pro seu bolso e como calcular seu limite.
+
+            # Juros do Cheque Especial Estão Quase no Teto Legal: Entenda o Que Isso Significa
+
+            ## O que os números do Banco Central mostram
+
+            Em junho de 2026, a taxa média de juros do cheque especial para pessoas
+            físicas no Brasil ficou em 139,78% ao ano, segundo o Sistema Gerenciador
+            de Séries Temporais (SGS) do Banco Central do Brasil. [...corpo com 3-5
+            seções H2, cada uma com 1-3 parágrafos...]
+
+            ## Como saber seu limite antes de usar o cheque especial
+
+            Os juros do cheque especial não vão baixar por conta própria [...]. É
+            para isso que existe o cálculo de custo de sobrevivência dentro do
+            [Grana](https://suagrana.app): você lança sua renda e seus gastos
+            fixos, e o app mostra exatamente quanto sobra, ou falta, de verdade
+            por dia [...]
+
+            Salve esse arquivo em ./content/atualidade-AAAA-MM-DD-slug-curto.md
+            (AAAA-MM-DD = data de hoje -- confirme com `date -u +%Y-%m-%d`, nunca
+            confie em memória; slug-curto = 2-4 palavras do assunto, minúsculas,
+            hífen). Título de 50-70 caracteres, meta description de 140-160
+            caracteres, corpo com 400-700 palavras.
+
+            PASSO 4 -- Agendar: abra ./publish-schedule.json (objeto JSON, chave =
+            nome do arquivo sem "./content/" nem ".md"). Adicione uma entrada nova
+            (não mexa nas existentes):
+
+            "atualidade-AAAA-MM-DD-slug-curto": {
+              "date": "AAAA-MM-DD",
+              "author": "Thallis Ribeiro",
+              "sources": ["Banco Central"]
+            }
+
+            O campo "sources" usa nomes padronizados quando aplicável: "Banco
+            Central", "BACEN", "IBGE", "Receita Federal", "Senado", "Câmara dos
+            Deputados", "Caixa Econômica Federal", "Agência Brasil", "Dieese",
+            "CVM", "ANBIMA". Depois de editar, valide com
+            `python3 -c "import json; json.load(open('publish-schedule.json'))"`.
+
+            PASSO 5 -- Commit e push:
+            `git config user.name "Grana Blog Bot" && git config user.email "actions@grana-blog" && git add content/[arquivo novo] publish-schedule.json && git commit -m "post de atualidade: [título curto]" && git push origin HEAD:master`
+            Esse ambiente (GitHub Actions, checkout padrão) já tem permissão de
+            escrita de verdade -- não é a mesma sandbox que falhou antes. Se ainda
+            assim der erro de permissão, não insista tentando outros métodos --
+            reporte o erro exato no PASSO 6.
+
+            PASSO 6 -- Termine sua resposta com um resumo curto (2-3 frases): ou o
+            título do post publicado + resumo de 1 frase do assunto, ou "sem
+            novidade relevante hoje, não publiquei", ou o erro exato se o push
+            falhou. Nunca afirme sucesso que não aconteceu de verdade.
+          claude_args: |
+            --model claude-sonnet-5
+            --allowedTools "Bash,Read,Write,Edit,Glob,Grep,WebSearch"
+            --max-turns 40
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Agendar posts novos (não reatribui data de post já agendado)
+        run: python build_schedule.py
+
+      - name: Atualizar dado vivo (taxas do Banco Central, API pública sem chave)
+        run: python update_live_data.py
+
+      - name: Gerar site (só entra o que já bateu a data)
+        run: python generate.py
+
+      - name: Publicar no Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: grana-blog
+          directory: dist
+
+      - name: Commit do cronograma/dado vivo, se algo mais mudou
+        run: |
+          git config user.name "grana-blog-bot"
+          git config user.email "actions@github.com"
+          git add publish-schedule.json live-data.json
+          git diff --staged --quiet || git commit -m "chore: atualiza cronograma e dado vivo [skip ci]"
+          git push || true
