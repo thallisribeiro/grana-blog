@@ -31,7 +31,7 @@ SITE_URL = "https://blog.suagrana.app"
 
 # Google Analytics 4 — preencher assim que o usuário criar a propriedade GA4 (grátis,
 # analytics.google.com) e regerar o site. Vazio = nenhum snippet é inserido (não quebra nada).
-GA4_MEASUREMENT_ID = ""
+GA4_MEASUREMENT_ID = "G-GTR0Q0BCPF"
 
 BRAND_BG = "#0D0F0E"
 BRAND_GREEN_DARK = "#1E5E45"
