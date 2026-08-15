@@ -1,0 +1,49 @@
+name: Rebuild e publicar blog
+
+# Roda todo dia às 09:00 BRT (12:00 UTC, BRT = UTC-3) -- é isso que faz os posts
+# agendados (publish-schedule.json) entrarem no ar sozinhos, sem ninguém tocar em nada.
+# Também roda em qualquer push na main (edição manual, post novo) e pode ser disparado
+# manualmente via "Run workflow" no GitHub, pra testar sem esperar o horário.
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Agendar posts novos (não reatribui data de post já agendado)
+        run: python build_schedule.py
+
+      - name: Atualizar dado vivo (taxas do Banco Central, API pública sem chave)
+        run: python update_live_data.py
+
+      - name: Gerar site (só entra o que já bateu a data)
+        run: python generate.py
+
+      - name: Publicar no Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: grana-blog
+          directory: dist
+
+      - name: Commit do cronograma e do dado vivo atualizados (se algo mudou)
+        run: |
+          git config user.name "grana-blog-bot"
+          git config user.email "actions@github.com"
+          git add publish-schedule.json live-data.json
+          git diff --staged --quiet || git commit -m "chore: atualiza cronograma e dado vivo [skip ci]"
+          git push || true

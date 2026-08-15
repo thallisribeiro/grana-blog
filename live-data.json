@@ -1,0 +1,16 @@
+{
+  "cheque-especial": {
+    "codigo": 20741,
+    "valor": "139.78",
+    "data_referencia": "01/06/2026",
+    "unidade": "% ao ano",
+    "descricao_bacen": "Taxa média de juros das operações de crédito com recursos livres — Pessoas físicas — Cheque especial"
+  },
+  "rotativo-cartao": {
+    "codigo": 22022,
+    "valor": "442.44",
+    "data_referencia": "01/06/2026",
+    "unidade": "% ao ano",
+    "descricao_bacen": "Taxa média de juros das operações de crédito com recursos livres — Pessoas físicas — Cartão de crédito rotativo"
+  }
+}

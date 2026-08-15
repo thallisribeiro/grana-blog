@@ -1,0 +1,357 @@
+{
+  "cheque-especial-teto": {
+    "date": "2026-08-15",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central"
+    ]
+  },
+  "custo-sobrevivencia-renda-variavel": {
+    "date": "2026-08-15",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "quase-metade-endividada": {
+    "date": "2026-08-15",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central",
+      "Agência Brasil"
+    ]
+  },
+  "rotativo-passo-a-passo": {
+    "date": "2026-08-15",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central"
+    ]
+  },
+  "consultor-de-bolso": {
+    "date": "2026-08-15",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "bola-de-neve": {
+    "date": "2026-08-16",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "custo-sobrevivencia-tutorial": {
+    "date": "2026-08-17",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "mei-conta-misturada": {
+    "date": "2026-08-18",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "lancamento-1-minuto": {
+    "date": "2026-08-19",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "rotativo-cartao": {
+    "date": "2026-08-20",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central"
+    ]
+  },
+  "redirecionar-divida": {
+    "date": "2026-08-21",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "endividamento-alta-renda": {
+    "date": "2026-08-23",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "substituir-planilha": {
+    "date": "2026-08-24",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "reserva-emergencia": {
+    "date": "2026-08-25",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "ANBIMA"
+    ]
+  },
+  "reserva-passo-a-passo": {
+    "date": "2026-08-26",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "raiox-3-numeros": {
+    "date": "2026-08-27",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "parcelamento-fatura-armadilha": {
+    "date": "2026-08-28",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central",
+      "Serasa"
+    ]
+  },
+  "proximo-passo": {
+    "date": "2026-08-29",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "quanto-sobra-passo-a-passo": {
+    "date": "2026-08-30",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "ordem-certa-prioridades": {
+    "date": "2026-08-31",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "custo-sobrevivencia-institucional": {
+    "date": "2026-09-01",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "listar-dividas-certo": {
+    "date": "2026-09-02",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "tres-habitos-forca-vontade": {
+    "date": "2026-09-04",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "reserva-genero": {
+    "date": "2026-09-05",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Serasa"
+    ]
+  },
+  "credito-pessoal-127": {
+    "date": "2026-09-06",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central"
+    ]
+  },
+  "rotativo-escondido-fatura": {
+    "date": "2026-09-07",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central"
+    ]
+  },
+  "bola-de-neve-dividas": {
+    "date": "2026-09-08",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central"
+    ]
+  },
+  "reserva-52-porcento": {
+    "date": "2026-09-09",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Serasa"
+    ]
+  },
+  "erro-pagar-rapido-demais": {
+    "date": "2026-09-10",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central"
+    ]
+  },
+  "consignado": {
+    "date": "2026-09-11",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central",
+      "Agência Brasil"
+    ]
+  },
+  "regra-6-salarios": {
+    "date": "2026-09-12",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "reserva-nao-basta": {
+    "date": "2026-09-13",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "ANBIMA"
+    ]
+  },
+  "raiox-sem-medo": {
+    "date": "2026-09-14",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "ordem-das-prioridades": {
+    "date": "2026-09-16",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "quanto-sobra-domingo": {
+    "date": "2026-09-17",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "financiamento-veiculo-juros": {
+    "date": "2026-09-18",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central"
+    ]
+  },
+  "tres-habitos-financeiros": {
+    "date": "2026-09-19",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "ordem-das-dividas": {
+    "date": "2026-09-20",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "fgts-antecipacao": {
+    "date": "2026-09-21",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Serasa"
+    ]
+  },
+  "efeito-bola-de-neve": {
+    "date": "2026-09-22",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "raiox-nao-e-extrato": {
+    "date": "2026-09-23",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "reserva-emergencia-saude": {
+    "date": "2026-09-24",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Serasa"
+    ]
+  },
+  "pequeno-empresario-vermelho": {
+    "date": "2026-09-25",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central",
+      "Serasa"
+    ]
+  },
+  "consultor-de-bolso-2": {
+    "date": "2026-09-26",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "redirecionar-divida-cara": {
+    "date": "2026-09-28",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "antes-de-parcelar": {
+    "date": "2026-09-29",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "idade-divida": {
+    "date": "2026-09-30",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central",
+      "Serasa",
+      "SPC"
+    ]
+  },
+  "menos-1-minuto-mito": {
+    "date": "2026-10-01",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "cartao-consignado-proibido": {
+    "date": "2026-10-02",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "reserva-renda-variavel": {
+    "date": "2026-10-03",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "30-39-anos-negativados": {
+    "date": "2026-10-04",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Serasa",
+      "SPC",
+      "CNDL"
+    ]
+  },
+  "planilha-sem-formula": {
+    "date": "2026-10-05",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "pagamento-minimo-cartao": {
+    "date": "2026-10-06",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "SPC",
+      "CNDL"
+    ]
+  },
+  "ordem-certa-prioridades-29": {
+    "date": "2026-10-07",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "raiox-nao-e-extrato-30": {
+    "date": "2026-10-08",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "credito-tarde": {
+    "date": "2026-10-10",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Serasa"
+    ]
+  },
+  "proximo-passo-30": {
+    "date": "2026-10-11",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "quanto-sobra-no-mes": {
+    "date": "2026-10-12",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  },
+  "credito-negativado": {
+    "date": "2026-10-13",
+    "author": "Thallis Ribeiro",
+    "sources": [
+      "Banco Central"
+    ]
+  },
+  "custo-sobrevivencia-tutorial-31": {
+    "date": "2026-10-14",
+    "author": "Thallis Ribeiro",
+    "sources": []
+  }
+}
