@@ -1,16 +1,25 @@
 #!/usr/bin/env python3
 """Audita os posts existentes (content/*.md) contra a Barra de Publicacao do Blog
-(pipeline/data/quality-criteria.md, spec blog-primeiro 2026-08-15).
+(pipeline/data/quality-criteria.md, spec blog-primeiro 2026-08-15, corrigida no mesmo dia).
 
-So checa mecanicamente o que da pra checar sem julgamento humano:
+So checa mecanicamente o que da pra checar sem julgamento humano. Itens BLOQUEANTES:
   1. Numero com fonte nomeada e data       -> campo 'sources' em publish-schedule.json
   2. Calculo mostrado (nao so citado)      -> heuristica: presenca de expressao com R$ e
-                                               operador (x, *, +, =) no corpo
+                                               operador (x, *, +, =) no corpo -- heuristica
+                                               imperfeita (pode dar falso positivo em
+                                               palavras com 'x', ex: "taxa"), usar so como
+                                               triagem, nao como veredito final
   3. Tabela ou comparacao escaneavel       -> sintaxe de tabela markdown '|---|' OU lista
   4. Assinatura + link /sobre              -> automatico pelo gerador (generate.py), sempre passa
   5. Link pilar + 2 irmaos                 -> automatico pelo gerador, sempre passa (as vezes so 1 irmao se pilar pequeno)
-  6. FAQ de 4 perguntas                    -> conta H2 terminando em '?'
-  7. Diferenciacao real ("nada generico")  -> NAO checavel por script, fica pendente de revisao humana
+  6. Diferenciacao real ("nada generico")  -> NAO checavel por script, fica pendente de revisao humana
+
+Item INFORMATIVO, NAO bloqueante (corrigido 2026-08-15 -- Google encerrou os rich
+results de FAQ na busca em 7/mai/2026; o schema.org FAQPage continua valido e sem
+prejuizo pra indexacao, mas nao e mais retorno de SERP, entao nao justifica bloquear
+publicacao. Ver quality-criteria.md):
+  - FAQ de 4 perguntas -> conta H2 terminando em '?'. So reportado, nunca conta pra
+    'n_fail' nem pra decisao de passa/falha do post.
 
 Isso NAO republica nada -- so gera um relatorio (site/audit-report.md) categorizando
 cada post em PASSA / FALHA MECANICA, pra decidir o que entra na fila de reescrita antes
@@ -83,13 +92,13 @@ def main():
             "3_tabela_lista": has_table_or_list(body),
             "4_assinatura": True,   # automatico pelo gerador
             "5_link_pilar_irmaos": True,  # automatico pelo gerador
-            "6_faq_4_perguntas": count_faq_questions(body) >= 4,
+            "6_diferenciacao": True,  # nao checavel por script -- nunca conta contra o post aqui
         }
         n_fail = sum(1 for v in checks.values() if not v)
         results.append({
             "slug": slug, "titulo": titulo, "published": published,
             "pub_date": pub_date, "checks": checks, "n_fail": n_fail,
-            "faq_count": count_faq_questions(body),
+            "faq_count": count_faq_questions(body),  # informativo, nunca conta pra n_fail
         })
 
     published_fail = [r for r in results if r["published"] and r["n_fail"] > 0]
@@ -100,11 +109,9 @@ def main():
     lines = []
     lines.append("# Auditoria — Barra de Publicação do Blog (mecânica)")
     lines.append("")
-    lines.append(f"Rodado em {today_iso}. Checa só o que dá pra checar por script (itens 1, 2, 3, 6 da Barra); itens 4 e 5 são automáticos pelo gerador (sempre passam); item 7 (diferenciação real) exige leitura humana, não incluído aqui.")
+    lines.append(f"Rodado em {today_iso}. Checa só o que dá pra checar por script, dos itens BLOQUEANTES (1, 2, 3 da Barra; itens 4 e 5 são automáticos pelo gerador, sempre passam; item 6, diferenciação real, exige leitura humana, não incluído aqui). Contagem de FAQ é só informativa — corrigido em 2026-08-15: Google encerrou os rich results de FAQ na busca em 7/mai/2026, então FAQ deixou de ser critério bloqueante (ver `quality-criteria.md`).")
     lines.append("")
     lines.append(f"**Resumo**: {len(results)} posts totais · {len(published_pass) + len(published_fail)} já publicados ({len(published_fail)} com falha mecânica) · {len(future_pass) + len(future_fail)} ainda agendados ({len(future_fail)} com falha mecânica).")
-    lines.append("")
-    lines.append("**Achado principal**: a checagem de FAQ (item 6, mínimo 4 perguntas em formato `## Pergunta?`) é a que mais reprova — confirma o que `blog-seo-framework.md` Seção 6 já registrava (\"só ~1 em 60 usa esse formato hoje\"). Não é sobre reescrever tudo: é sobre não deixar posts agendados saírem no ar sem esse bloco, dali em diante.")
     lines.append("")
 
     lines.append("## Já publicados, com falha mecânica (ficam no ar — nota da spec: \"os que já estão no ar ficam\" — mas viram candidatos a reforço, não a republicação às pressas)")
