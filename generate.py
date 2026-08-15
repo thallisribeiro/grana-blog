@@ -202,11 +202,19 @@ footer {{ color: var(--text-dim); font-size: 0.85rem; text-align: center; margin
 def ga4_snippet() -> str:
     if not GA4_MEASUREMENT_ID:
         return ""
-    # Evento "click_cta_app" em todo clique no CTA fixo (link pro app) -- proxy de conversão
-    # do lado do blog, já que a conversão real (conclusão da calculadora, captura de e-mail)
-    # só existe no código do app, fora deste repositório. Marcar "click_cta_app" como Key
-    # Event no GA4 (Admin -> Eventos) depois que começar a aparecer, se quiser contar como
-    # sinal de intenção -- 2026-08-15, pedido do usuário no fechamento do refino do blog.
+    # GA4_MEASUREMENT_ID (G-GTR0Q0BCPF) é o MESMO stream que o app (www.suagrana.app) deve
+    # usar -- suagrana.app e blog.suagrana.app são o mesmo domínio registrável, então GA4
+    # já mantém sessão contínua entre os dois nativamente, sem precisar de cross-domain nem
+    # de um segundo stream (isso quebraria o relatório de jornada blog->calculadora, que é
+    # o ponto inteiro de medir isso). Corrigido 2026-08-15 depois de eu ter orientado errado
+    # pro usuário criar um stream separado -- não criar.
+    #
+    # Evento "click_cta_app" em todo clique no CTA fixo (link pro app): é sinal ANTECEDENTE
+    # (intenção), não de resultado -- nunca tratar como métrica de sucesso sozinha, ou a
+    # tentação vira otimizar o botão (cor/texto/posição) quando o gargalo real pode estar
+    # depois, na calculadora do app. Enquanto os 2 eventos reais do app (conclusão da
+    # calculadora, captura de e-mail) não existirem, usar isso só como diagnóstico de
+    # conteúdo (qual post empurra mais gente pro app), nunca como KPI isolado.
     return (
         f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_MEASUREMENT_ID}"></script>\n'
         f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}"
