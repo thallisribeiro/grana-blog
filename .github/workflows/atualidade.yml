@@ -136,6 +136,8 @@ jobs:
 
       - name: Atualizar dado vivo (taxas do Banco Central, API pública sem chave)
         run: python update_live_data.py
+        continue-on-error: true # ver mesma nota em rebuild.yml -- API do BACEN fora do ar
+          # não pode travar o post do dia
 
       - name: Gerar site (só entra o que já bateu a data)
         run: python generate.py
