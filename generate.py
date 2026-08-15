@@ -202,10 +202,19 @@ footer {{ color: var(--text-dim); font-size: 0.85rem; text-align: center; margin
 def ga4_snippet() -> str:
     if not GA4_MEASUREMENT_ID:
         return ""
+    # Evento "click_cta_app" em todo clique no CTA fixo (link pro app) -- proxy de conversão
+    # do lado do blog, já que a conversão real (conclusão da calculadora, captura de e-mail)
+    # só existe no código do app, fora deste repositório. Marcar "click_cta_app" como Key
+    # Event no GA4 (Admin -> Eventos) depois que começar a aparecer, se quiser contar como
+    # sinal de intenção -- 2026-08-15, pedido do usuário no fechamento do refino do blog.
     return (
         f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_MEASUREMENT_ID}"></script>\n'
         f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}"
-        f"gtag('js',new Date());gtag('config','{GA4_MEASUREMENT_ID}');</script>"
+        f"gtag('js',new Date());gtag('config','{GA4_MEASUREMENT_ID}');"
+        f"document.addEventListener('click',function(e){{"
+        f"var a=e.target.closest('.cta');"
+        f"if(a){{gtag('event','click_cta_app',{{destination:a.href,page_path:location.pathname}});}}"
+        f"}});</script>"
     )
 
 def slugify(filename: str) -> str:
