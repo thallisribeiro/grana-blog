@@ -43,9 +43,9 @@ jobs:
             Copom/Selic, resolução do Banco Central, medida do governo sobre
             crédito/imposto, prazo fiscal (IR, FGTS), dado novo do IBGE sobre
             inflação/endividamento, mudança de regra de cartão/rotativo/cheque
-            especial. Priorize fontes oficiais (bcb.gov.br, gov.br, ibge.gov.br,
-            agenciabrasil.ebc.com.br) ou grande imprensa (Valor, Folha, G1,
-            InfoMoney) citando essas fontes. Confira em ./publish-schedule.json e
+            especial. A notícia/matéria de imprensa (Valor, Folha, G1, InfoMoney
+            etc.) serve só como GATILHO -- avisa que algo aconteceu, nunca é a fonte
+            do número que você vai citar. Confira em ./publish-schedule.json e
             nos nomes de arquivo em ./content/ (padrão "atualidade-AAAA-MM-DD-*")
             se esse assunto específico já não foi coberto num post recente.
 
@@ -56,10 +56,25 @@ jobs:
 
             PASSO 2 -- Escolha 1 assunto, o mais relevante/recente.
 
-            PASSO 3 -- Escreva o post. Regra inegociável: NUNCA invente número,
-            taxa, lei ou fonte -- todo dado citado tem que vir de verdade da
-            pesquisa do passo 1. Se não tiver certeza de um número, não cite o
-            número.
+            PASSO 3 -- Escreva o post. Regras inegociáveis:
+            - NUNCA invente número, taxa, lei ou fonte -- todo dado citado tem que
+              vir de verdade de pesquisa real. Se não tiver certeza de um número,
+              não cite o número.
+            - **O número vem da fonte primária, nunca da matéria que avisou sobre o
+              assunto.** Copom decidiu a Selic? O número sai da ata/nota do Banco
+              Central (bcb.gov.br), não do texto do InfoMoney/Valor/G1 que noticiou.
+              Saiu pesquisa de endividamento? Vai no release oficial da CNC/Serasa/
+              IBGE, não na matéria que resumiu. Depois de achar a notícia no Passo 1,
+              faça uma busca SEPARADA e específica pela fonte primária (site oficial
+              do órgão, nota técnica, release) antes de escrever qualquer número no
+              post -- a matéria de imprensa só te disse que o assunto existe, ela não
+              é citável como fonte do dado. Se não conseguir achar a fonte primária
+              pública pro número, não publique esse ângulo -- procure outro assunto
+              do Passo 1 ou pule o dia.
+            - O ângulo é tradução, nunca cobertura: portal grande publica "Copom
+              mantém Selic em X%", você publica "o que muda na sua fatura do cartão
+              no mês que vem". Nunca reescreva a notícia -- traduza a consequência
+              prática pro leitor endividado.
 
             Formato exato (copie a estrutura, é o que o site espera). Exemplo real
             de um post existente do mesmo blog, pra você seguir o tom e a estrutura
