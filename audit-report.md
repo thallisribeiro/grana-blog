@@ -2,7 +2,7 @@
 
 Rodado em 2026-08-15. Checa só o que dá pra checar por script (itens 1, 2, 3, 6 da Barra); itens 4 e 5 são automáticos pelo gerador (sempre passam); item 7 (diferenciação real) exige leitura humana, não incluído aqui.
 
-**Resumo**: 61 posts totais · 6 já publicados (6 com falha mecânica) · 55 ainda agendados (55 com falha mecânica).
+**Resumo**: 61 posts totais · 6 já publicados (6 com falha mecânica) · 55 ainda agendados (54 com falha mecânica).
 
 **Achado principal**: a checagem de FAQ (item 6, mínimo 4 perguntas em formato `## Pergunta?`) é a que mais reprova — confirma o que `blog-seo-framework.md` Seção 6 já registrava ("só ~1 em 60 usa esse formato hoje"). Não é sobre reescrever tudo: é sobre não deixar posts agendados saírem no ar sem esse bloco, dali em diante.
 
@@ -17,7 +17,6 @@ Rodado em 2026-08-15. Checa só o que dá pra checar por script (itens 1, 2, 3, 
 
 ## Ainda agendados, com falha mecânica (candidatos reais à fila de reescrita antes de sair — nota da spec)
 
-- `bola-de-neve` (2026-08-16) — falha: 1_fonte_data, 6_faq_4_perguntas (FAQ: 0/4)
 - `custo-sobrevivencia-tutorial` (2026-08-17) — falha: 1_fonte_data, 2_calculo_mostrado, 6_faq_4_perguntas (FAQ: 0/4)
 - `mei-conta-misturada` (2026-08-18) — falha: 1_fonte_data, 2_calculo_mostrado, 3_tabela_lista, 6_faq_4_perguntas (FAQ: 0/4)
 - `lancamento-1-minuto` (2026-08-19) — falha: 1_fonte_data, 2_calculo_mostrado, 3_tabela_lista, 6_faq_4_perguntas (FAQ: 0/4)
@@ -73,6 +72,6 @@ Rodado em 2026-08-15. Checa só o que dá pra checar por script (itens 1, 2, 3, 
 - `credito-negativado` (2026-10-13) — falha: 3_tabela_lista, 6_faq_4_perguntas (FAQ: 0/4)
 - `custo-sobrevivencia-tutorial-31` (2026-10-14) — falha: 1_fonte_data, 2_calculo_mostrado, 3_tabela_lista, 6_faq_4_perguntas (FAQ: 0/4)
 
-## Passam em todos os checks mecânicos (0 posts)
+## Passam em todos os checks mecânicos (1 posts)
 
-
+`bola-de-neve`
