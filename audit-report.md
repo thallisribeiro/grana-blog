@@ -1,8 +1,8 @@
 # Auditoria — Barra de Publicação do Blog (mecânica)
 
-Rodado em 2026-08-15. Checa só o que dá pra checar por script, dos itens BLOQUEANTES (1, 2, 3 da Barra; itens 4 e 5 são automáticos pelo gerador, sempre passam; item 6, diferenciação real, exige leitura humana, não incluído aqui). Contagem de FAQ é só informativa — corrigido em 2026-08-15: Google encerrou os rich results de FAQ na busca em 7/mai/2026, então FAQ deixou de ser critério bloqueante (ver `quality-criteria.md`).
+Rodado em 2026-08-16. Checa só o que dá pra checar por script, dos itens BLOQUEANTES (1, 2, 3 da Barra; itens 4 e 5 são automáticos pelo gerador, sempre passam; item 6, diferenciação real, exige leitura humana, não incluído aqui). Contagem de FAQ é só informativa — corrigido em 2026-08-15: Google encerrou os rich results de FAQ na busca em 7/mai/2026, então FAQ deixou de ser critério bloqueante (ver `quality-criteria.md`).
 
-**Resumo**: 61 posts totais · 6 já publicados (6 com falha mecânica) · 55 ainda agendados (54 com falha mecânica).
+**Resumo**: 61 posts totais · 7 já publicados (6 com falha mecânica) · 54 ainda agendados (53 com falha mecânica).
 
 ## Já publicados, com falha mecânica (ficam no ar — nota da spec: "os que já estão no ar ficam" — mas viram candidatos a reforço, não a republicação às pressas)
 
@@ -15,7 +15,6 @@ Rodado em 2026-08-15. Checa só o que dá pra checar por script, dos itens BLOQU
 
 ## Ainda agendados, com falha mecânica (candidatos reais à fila de reescrita antes de sair — nota da spec)
 
-- `custo-sobrevivencia-tutorial` (2026-08-17) — falha: 1_fonte_data, 2_calculo_mostrado (FAQ: 0/4)
 - `mei-conta-misturada` (2026-08-18) — falha: 1_fonte_data, 2_calculo_mostrado, 3_tabela_lista (FAQ: 0/4)
 - `lancamento-1-minuto` (2026-08-19) — falha: 1_fonte_data, 2_calculo_mostrado, 3_tabela_lista (FAQ: 0/4)
 - `rotativo-cartao` (2026-08-20) — falha: 2_calculo_mostrado, 3_tabela_lista (FAQ: 0/4)
@@ -70,6 +69,6 @@ Rodado em 2026-08-15. Checa só o que dá pra checar por script, dos itens BLOQU
 - `credito-negativado` (2026-10-13) — falha: 3_tabela_lista (FAQ: 0/4)
 - `custo-sobrevivencia-tutorial-31` (2026-10-14) — falha: 1_fonte_data, 2_calculo_mostrado, 3_tabela_lista (FAQ: 0/4)
 
-## Passam em todos os checks mecânicos (1 posts)
+## Passam em todos os checks mecânicos (2 posts)
 
-`bola-de-neve`
+`bola-de-neve`, `custo-sobrevivencia-tutorial`

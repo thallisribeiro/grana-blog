@@ -10,6 +10,8 @@ A maioria das pessoas sabe, aproximadamente, quanto ganha por mês. Poucas sabem
 
 Sem esse número, decisões financeiras acontecem no escuro. A sensação de "não sobra nada" vira uma impressão vaga, difícil de agir sobre. Com o número em mãos, a mesma sensação vira um cálculo concreto, com causa identificável.
 
+O peso do essencial não é imaginação: segundo o IBGE, na Pesquisa de Orçamentos Familiares (POF 2017-2018, edição mais recente divulgada), moradia e transporte já somam sozinhos pouco mais de 50% das despesas de consumo das famílias brasileiras — antes de contar alimentação. É por isso que o custo de sobrevivência costuma surpreender quem nunca fez a conta: o "básico" ocupa a maior fatia do orçamento, não a menor.
+
 ## Como calcular seu custo de sobrevivência em 4 passos
 
 1. **Some toda a renda que entra no mês.** Salário, bico, freela, diária — qualquer entrada conta. O número certo é o que caiu de fato na conta, mês fechado, sem arredondar pra cima.
@@ -19,7 +21,12 @@ Sem esse número, decisões financeiras acontecem no escuro. A sensação de "n�
 
 ## Um exemplo prático
 
-Numa renda ilustrativa de R$ 2.400 por mês, com R$ 1.850 em gastos essenciais, o cálculo fica assim: R$ 1.850 dividido por 30 dá R$ 61,67 de custo de sobrevivência por dia. A sobra real do mês é R$ 550, ou R$ 18,33 por dia. É esse número — não a sensação de "sinto que não sobra nada" — que deveria decidir cada escolha financeira do mês.
+Numa renda ilustrativa de R$ 2.400 por mês, com R$ 1.850 em gastos essenciais, o cálculo fica assim:
+
+R$ 1.850 ÷ 30 = R$ 61,67 de custo de sobrevivência por dia
+R$ 2.400 − R$ 1.850 = R$ 550 de sobra real no mês (R$ 18,33 por dia)
+
+É esse número — não a sensação de "sinto que não sobra nada" — que deveria decidir cada escolha financeira do mês.
 
 ## Por que isso muda a forma de decidir
 

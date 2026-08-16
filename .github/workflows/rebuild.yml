@@ -30,6 +30,9 @@ jobs:
       - name: Agendar posts novos (não reatribui data de post já agendado)
         run: python build_schedule.py
 
+      - name: Garantir mínimo de 2 posts/dia (puxa evergreen extra se atualidade pulou hoje)
+        run: python pull_forward_if_no_atualidade.py
+
       - name: Atualizar dado vivo (taxas do Banco Central, API pública sem chave)
         run: python update_live_data.py
         continue-on-error: true # API do BACEN fora do ar não pode travar o build inteiro --
