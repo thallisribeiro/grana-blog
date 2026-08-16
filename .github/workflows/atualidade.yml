@@ -140,6 +140,10 @@ jobs:
             --model claude-sonnet-5
             --allowedTools "Bash,Read,Write,Edit,Glob,Grep,WebSearch"
             --max-turns 40
+          # Sem isso, o log fica "hidden for security" e não dá pra saber se um dia sem
+          # post novo foi decisão (sem novidade relevante) ou falha silenciosa -- achado
+          # real, 2026-08-16 (o primeiro dia sem post não dava pra distinguir um do outro).
+          show_full_output: true
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -166,7 +170,14 @@ jobs:
           directory: dist
 
       - name: Commit do cronograma/dado vivo, se algo mais mudou
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          # A Claude Code Action (passo acima) reconfigura a URL remota com a própria
+          # credencial pra poder commitar o post -- isso ficava "vazando" pro resto do
+          # job, e esse push aqui falhava com "Invalid username or token" (achado real,
+          # 2026-08-16). Reseta pro token padrão do Actions antes de commitar, sempre.
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
           git config user.name "grana-blog-bot"
           git config user.email "actions@github.com"
           git add publish-schedule.json live-data.json
