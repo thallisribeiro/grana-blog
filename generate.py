@@ -197,6 +197,7 @@ footer {{ color: var(--text-dim); font-size: 0.85rem; text-align: center; margin
 }}
 .hero-stat-big {{ font-family: 'Anton'; font-size: 2.6rem; color: var(--green); display: flex; align-items: baseline; gap: 10px; }}
 .hero-stat-big .unidade {{ font-family: 'Inter'; font-size: 1rem; font-weight: 700; color: var(--text-dim); }}
+.cover {{ width: 100%; height: auto; border-radius: 12px; margin: 0.4em 0 1.2em; display: block; border: 1px solid var(--line); }}
 """
 
 def ga4_snippet() -> str:
@@ -453,6 +454,7 @@ POST_TEMPLATE = """<!doctype html>
 <meta name="description" content="{meta}">
 <meta property="article:published_time" content="{pub_date}">
 <link rel="canonical" href="{url}">
+{og_image_tags}
 <script type="application/ld+json">{schema}</script>
 {ga4}
 <style>{css}</style>
@@ -464,6 +466,7 @@ POST_TEMPLATE = """<!doctype html>
 </div></header>
 <div class="wrap">
 <h1>{titulo}</h1>
+{cover_html}
 <div class="hero-stat">{meta}</div>
 {body_html}
 {cluster_html}
@@ -643,6 +646,18 @@ def main():
     for font_file in (ROOT / "fonts").glob("*.ttf"):
         shutil.copy(font_file, fonts_dist / font_file.name)
 
+    # Capas geradas localmente (ComfyUI/FLUX, ver generate_cover_images.py) -- opcional
+    # por post, pulado sem quebrar nada quando não existir (achado 2026-08-16: geração
+    # de imagem só roda com PC ligado, então nem todo post vai ter capa o tempo todo).
+    covers_src = ROOT / "images" / "covers"
+    covers_dist = DIST_DIR / "images" / "covers"
+    covers_dist.mkdir(parents=True, exist_ok=True)
+    cover_slugs = set()
+    if covers_src.exists():
+        for cover_file in covers_src.glob("*.jpg"):
+            shutil.copy(cover_file, covers_dist / cover_file.name)
+            cover_slugs.add(cover_file.stem)
+
     schedule = {}
     if SCHEDULE_PATH.exists():
         schedule = json.loads(SCHEDULE_PATH.read_text(encoding="utf-8"))
@@ -708,11 +723,24 @@ def main():
         body_html = md_to_html(body)
         faqs = extract_faq(body)
         schema = build_structured_data(titulo, meta, url, faqs, pub_date, author)
+
+        if slug in cover_slugs:
+            cover_url = f"{SITE_URL}/images/covers/{slug}.jpg"
+            og_image_tags = (
+                f'<meta property="og:image" content="{cover_url}">\n'
+                f'<meta name="twitter:card" content="summary_large_image">\n'
+                f'<meta name="twitter:image" content="{cover_url}">'
+            )
+            cover_html = f'<img class="cover" src="../images/covers/{slug}.jpg" alt="{html.escape(titulo)}" width="1280" height="720" loading="eager">'
+        else:
+            og_image_tags = ""
+            cover_html = ""
+
         html_out = POST_TEMPLATE.format(
             titulo=html.escape(titulo), meta=html.escape(meta), css=build_css("../"),
             body_html=body_html, cluster_html=cluster_html, url=url, schema=schema, ga4=ga4,
             pub_date=pub_date, pub_date_br=pub_date_br, author=author_byline_html(author),
-            sources_html=sources_html,
+            sources_html=sources_html, og_image_tags=og_image_tags, cover_html=cover_html,
         )
         (POSTS_DIR / f"{slug}.html").write_text(html_out, encoding="utf-8")
         cards.append((
