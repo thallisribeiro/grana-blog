@@ -49,6 +49,11 @@ jobs:
           directory: dist
 
       - name: Derivar carrossel do(s) post(s) evergreen que saíram hoje
+        # A Claude Code Action não suporta o evento "push" como gatilho (só schedule/
+        # workflow_dispatch) -- achado real, 2026-08-16. Como este workflow também
+        # dispara em todo push de código (pra deploy rápido de mudança no gerador),
+        # restringe este passo aos disparos que fazem sentido pra derivar carrossel.
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -111,6 +116,7 @@ jobs:
           show_full_output: true
 
       - name: Commit do cronograma e do dado vivo atualizados (se algo mudou)
+        if: always() # roda mesmo se a derivação de carrossel acima falhar ou for pulada
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
