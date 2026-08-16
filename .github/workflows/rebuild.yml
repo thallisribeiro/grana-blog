@@ -15,6 +15,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write # exigido pela Claude Code Action, ver step "Derivar carrossel" abaixo
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,8 +48,76 @@ jobs:
           projectName: grana-blog
           directory: dist
 
+      - name: Derivar carrossel do(s) post(s) evergreen que saíram hoje
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Você mantém o blog do Grana. Rode `date -u +%Y-%m-%d` pra saber a data de
+            hoje. Abra ./publish-schedule.json e ache toda entrada cujo "date" seja
+            HOJE. Pra cada uma, verifique se já existe ./carrosseis/[slug].md -- se já
+            existir, pule (já foi derivado antes). Se não existir, leia
+            ./content/[slug].md (ou o arquivo cujo nome bate com o slug, pode ter
+            prefixo numérico tipo "06-slug.md") e derive um carrossel a partir dele --
+            nunca reescreva o argumento do zero, é um recorte do post já pronto.
+
+            Regra que evita canibalização: o carrossel entrega o número e o choque, a
+            explicação completa fica só no post -- se o carrossel responder tudo, ele
+            compete com o próprio blog na busca.
+
+            Estrutura fixa, sempre 8 slides:
+              Slide 1 -- Manchete com o número do post, encurtada (nunca escrita do zero)
+              Slide 2 -- A consequência prática pro leitor
+              Slides 3-6 -- Desenvolvimento, um argumento por slide (nunca dois), extraído
+                das seções do post, resumido -- nunca copiado por completo
+              Slide 7 -- A virada ("não é o que você pensa")
+              Slide 8 -- CTA + fonte: "Quer saber o SEU número? / Comenta GRANA que a
+                gente te mostra. / www.suagrana.app →"
+
+            Legenda: primeira frase é resposta autocontida à pergunta que a pessoa
+            buscaria (Instagram é indexado pelo Google desde jul/2025), fecha com
+            "Comenta GRANA que a gente te mostra". 3-5 hashtags de nicho, nunca amplas.
+
+            Salvar em ./carrosseis/[slug].md, formato:
+            ```
+            === CARROSSEL ===
+            Post de origem: [slug]
+            === SLIDES ===
+            Slide 1: [...]
+            ...Slide 8: [...]
+            === CAPTION ===
+            [...]
+            === HASHTAGS ===
+            [...]
+            ```
+
+            **Isso é só texto -- nunca gere nem tente gerar imagem aqui** (imagem
+            depende de geração local com PC ligado, ou de Magnific pago, que nunca deve
+            rodar sem aprovação explícita do usuário pra esse uso específico).
+
+            Depois de derivar todos os carrosséis pendentes de hoje (pode ser zero, um,
+            ou raramente mais de um), faça:
+            `git config user.name "Grana Blog Bot" && git config user.email "actions@grana-blog" && git add carrosseis/ && git commit -m "carrossel derivado: [slugs]" && git push origin HEAD:master`
+            (só se houver arquivo novo pra commitar -- se não achou nenhuma entrada de
+            hoje sem carrossel, não faça commit vazio).
+
+            Termine com um resumo curto: quantos carrosséis derivou e de quais posts,
+            ou "nenhum post novo hoje, nada a derivar". Nunca afirme sucesso que não
+            aconteceu de verdade.
+          claude_args: |
+            --model claude-sonnet-5
+            --allowedTools "Bash,Read,Write,Edit,Glob,Grep"
+            --max-turns 30
+          show_full_output: true
+
       - name: Commit do cronograma e do dado vivo atualizados (se algo mudou)
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          # Reseta a credencial git pro token padrão -- a Claude Code Action (passo acima)
+          # reconfigura a URL remota com a própria credencial, que não serve pra esse push
+          # (mesmo bug achado em atualidade.yml, 2026-08-16).
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
           git config user.name "grana-blog-bot"
           git config user.email "actions@github.com"
           git add publish-schedule.json live-data.json

@@ -132,10 +132,46 @@ jobs:
             assim der erro de permissão, não insista tentando outros métodos --
             reporte o erro exato no PASSO 6.
 
-            PASSO 6 -- Termine sua resposta com um resumo curto (2-3 frases): ou o
-            título do post publicado + resumo de 1 frase do assunto, ou "sem
-            novidade relevante hoje, não publiquei", ou o erro exato se o push
-            falhou. Nunca afirme sucesso que não aconteceu de verdade.
+            PASSO 6 -- Se o Passo 5 publicou de verdade (não pulou o dia), derive o
+            carrossel do MESMO post que você acabou de escrever -- nunca reescreva o
+            argumento do zero, é um recorte. Regra que evita canibalização: o
+            carrossel entrega o número e o choque, a explicação completa fica só no
+            post -- se o carrossel responder tudo, ele compete com o próprio blog na
+            busca. Estrutura fixa, sempre 8 slides:
+              Slide 1 -- Manchete com o número do post, encurtada (nunca escrita do zero)
+              Slide 2 -- A consequência prática pro leitor
+              Slides 3-6 -- Desenvolvimento, um argumento por slide (nunca dois), extraído
+                das seções do post, resumido -- nunca copiado por completo
+              Slide 7 -- A virada ("não é o que você pensa")
+              Slide 8 -- CTA + fonte: "Quer saber o SEU número? / Comenta GRANA que a
+                gente te mostra. / www.suagrana.app →"
+            Legenda: primeira frase é resposta autocontida à pergunta que a pessoa
+            buscaria (Instagram é indexado pelo Google desde jul/2025), fecha com
+            "Comenta GRANA que a gente te mostra". 3-5 hashtags de nicho, nunca amplas.
+            Salvar em `./carrosseis/[mesmo slug do post].md`, formato:
+            ```
+            === CARROSSEL ===
+            Post de origem: [slug]
+            === SLIDES ===
+            Slide 1: [...]
+            Slide 2: [...]
+            ...Slide 8: [...]
+            === CAPTION ===
+            [...]
+            === HASHTAGS ===
+            [...]
+            ```
+            Commitar junto (`git add carrosseis/[slug].md`, mesmo commit ou um novo,
+            tanto faz). **Isso é só o texto -- sem imagem.** Imagem do carrossel
+            depende de geração local (ComfyUI/FLUX, precisa do PC ligado) ou de
+            Magnific pago (nunca gastar crédito aqui sem aprovação prévia do usuário
+            pra esse uso específico) -- não tentar gerar imagem neste workflow.
+
+            PASSO 7 -- Termine sua resposta com um resumo curto (2-4 frases): ou o
+            título do post publicado + resumo de 1 frase do assunto + confirmação de
+            que o carrossel foi derivado e salvo, ou "sem novidade relevante hoje,
+            não publiquei", ou o erro exato se o push falhou. Nunca afirme sucesso que
+            não aconteceu de verdade.
           claude_args: |
             --model claude-sonnet-5
             --allowedTools "Bash,Read,Write,Edit,Glob,Grep,WebSearch"
