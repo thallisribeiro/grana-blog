@@ -12,11 +12,21 @@ Segundo a Pesquisa Hábitos Financeiros dos Pequenos Negócios do Sebrae (dados 
 
 ## Por que isso acontece: não é preguiça, é falta de estrutura
 
-A mesma pesquisa do Sebrae mostra o cenário completo: metade dos donos de pequenos negócios tem controle financeiro precário. Do total, 30% usa planilha, 25% usa caderno, 20% usa aplicativo, 13% conta com contador, e 10% não controla nada. Sem uma estrutura mínima pra começar, misturar as contas se torna o caminho mais curto — não o mais preguiçoso. Ninguém ensina, na prática, como separar as duas coisas quando o negócio ainda é pequeno demais pra ter um contador dedicado ou um sistema de gestão formal.
+A mesma pesquisa do Sebrae mostra como esse controle é feito, quando existe:
+
+- 30% usa planilha
+- 25% usa caderno
+- 20% usa aplicativo
+- 13% conta com contador
+- 10% não controla nada
+
+Sem uma estrutura mínima pra começar, misturar as contas se torna o caminho mais curto — não o mais preguiçoso. Ninguém ensina, na prática, como separar as duas coisas quando o negócio ainda é pequeno demais pra ter um contador dedicado ou um sistema de gestão formal.
 
 ## O que a conta misturada esconde
 
-O problema de misturar pessoa física e negócio não é moral — é informacional. Quando a mesma conta bancária paga o aluguel de casa e o fornecedor do negócio, fica praticamente impossível saber se é o negócio que está dando lucro de verdade, ou se é o salário de outra fonte de renda que está segurando tudo. É possível trabalhar meses a fio sem nunca enxergar o resultado real do próprio negócio.
+O problema de misturar pessoa física e negócio não é moral — é informacional. Quando a mesma conta bancária paga o aluguel de casa e o fornecedor do negócio, fica praticamente impossível saber se é o negócio que está dando lucro de verdade, ou se é o salário de outra fonte de renda que está segurando tudo.
+
+Um exemplo mostra o tamanho do problema. Numa conta misturada com R$ 8.200 de entradas no mês (R$ 6.000 do negócio + R$ 2.200 de outra renda) e R$ 7.100 de saídas, também misturadas, o dono vê R$ 8.200 − R$ 7.100 = R$ 1.100 de sobra e acha que o negócio vai bem. Separando por origem, a conta muda de figura: R$ 6.000 − R$ 5.400 (custos do negócio) = R$ 600 de lucro real do negócio. R$ 2.200 − R$ 1.700 (gastos pessoais) = R$ 500 de sobra pessoal. O negócio, sozinho, mal cobre os próprios custos — informação que a conta misturada escondia por completo.
 
 ## Como separar sem precisar de contador
 
