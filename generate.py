@@ -75,6 +75,16 @@ body {{
   margin: 0 auto;
   padding: 28px 22px 90px;
 }}
+/* Home usa coluna mais larga -- o texto de post continua em 680px (linha
+   confortável de leitura), mas a listagem de cards não é texto corrido,
+   e travada em 680px sobrava espaço vazio enorme dos dois lados em tela
+   larga, fazendo a home parecer pobre/desorganizada no desktop. */
+.wrap-wide {{ max-width: 1100px; }}
+.card-grid {{ display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 12px; }}
+.card-grid .card {{ margin-bottom: 0; }}
+@media (min-width: 720px) {{
+  .card-grid {{ grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }}
+}}
 header.site {{
   border-bottom: 1px solid var(--line);
   padding: 22px 0;
@@ -657,21 +667,21 @@ INDEX_TEMPLATE = """<!doctype html>
 <style>{css}</style>
 </head>
 <body>
-<header class="site"><div class="wrap">
+<header class="site"><div class="wrap wrap-wide">
   <a class="brand" href="index.html">gr<span>a</span>na</a>
   <a class="back" href="sobre.html">Sobre o autor</a>
 </div></header>
-<div class="wrap">
+<div class="wrap wrap-wide">
 <h1>Blog do Grana</h1>
 <p class="meta">Finanças pessoais sem economês, sem culpa, com número na mesa.</p>
 <div class="section-label">Mais recente</div>
 {featured_card}
 <div class="section-label">Dados ao vivo</div>
-{dado_vivo_cards}
+<div class="card-grid">{dado_vivo_cards}</div>
 <div class="section-label">Temas</div>
-{pillar_cards}
+<div class="card-grid">{pillar_cards}</div>
 <div class="section-label">Todos os posts</div>
-{cards}
+<div class="card-grid">{cards}</div>
 <a class="cta" href="https://www.suagrana.app">Calcular meu custo de sobrevivência →</a>
 </div>
 <footer>Grana · suagrana.app</footer>
