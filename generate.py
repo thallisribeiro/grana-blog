@@ -65,7 +65,7 @@ body {{
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   margin: 0;
   padding: 0;
-  line-height: 1.7;
+  line-height: 1.45;
   font-size: 17px;
   -webkit-font-smoothing: antialiased;
 }}
