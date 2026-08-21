@@ -7,6 +7,7 @@ import os
 import re
 import html
 import json
+import urllib.parse
 from datetime import date
 from pathlib import Path
 
@@ -159,13 +160,16 @@ blockquote {{
 .card h2 {{ margin: 6px 0 6px; color: var(--text); font-size: 1.15rem; font-family: 'Inter'; font-weight: 800; }}
 .card p {{ margin: 0; color: var(--text-dim); font-size: 0.92rem; line-height: 1.5; }}
 .card.featured {{
-  border-color: rgba(76,175,125,0.35);
-  background: linear-gradient(180deg, rgba(76,175,125,0.07), transparent);
-  padding: 26px 26px;
-  margin-bottom: 22px;
+  border: 1px solid rgba(76,175,125,0.35);
+  border-left: 4px solid var(--green);
+  border-radius: 4px 12px 12px 4px;
+  background: linear-gradient(180deg, rgba(76,175,125,0.10), rgba(76,175,125,0.02));
+  padding: 28px 30px;
+  margin-bottom: 26px;
 }}
-.card.featured h2 {{ font-size: 1.5rem; font-family: 'Anton'; font-weight: 400; }}
+.card.featured h2 {{ font-size: 1.8rem; font-family: 'Anton'; font-weight: 400; line-height: 1.15; }}
 .card.featured .date {{ color: var(--green); }}
+.card.featured p {{ font-size: 1rem; margin-top: 8px; }}
 .section-label {{ color: var(--text-dim); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin: 2em 0 12px; }}
 .cta {{
   display: block;
@@ -182,6 +186,32 @@ blockquote {{
 }}
 .cta:hover {{ background: var(--green); }}
 .byline {{ color: var(--text-dim); font-size: 0.85rem; margin-top: 2.4em; padding-top: 1.2em; border-top: 1px solid var(--line); }}
+.share {{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 2em 0 0;
+  padding-top: 1.4em;
+  border-top: 1px solid var(--line);
+}}
+.share span {{ color: var(--text-dim); font-size: 0.85rem; margin-right: 2px; }}
+.share button, .share a {{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  border-radius: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}}
+.share button:hover, .share a:hover {{ border-color: var(--green); color: var(--green); }}
 .byline a {{ color: var(--text-dim); text-decoration: underline; }}
 footer {{ color: var(--text-dim); font-size: 0.85rem; text-align: center; margin-top: 3em; }}
 .cluster {{ margin-top: 2.6em; padding-top: 1.2em; border-top: 1px solid var(--line); }}
@@ -491,12 +521,33 @@ POST_TEMPLATE = """<!doctype html>
 {body_html}
 {cluster_html}
 <p class="byline">Por {author} · publicado em {pub_date_br}{sources_html}</p>
+{share_html}
 <a class="cta" href="https://www.suagrana.app">Calcular meu custo de sobrevivência →</a>
 </div>
 <footer>Grana · suagrana.app</footer>
 </body>
 </html>
 """
+
+SHARE_TEMPLATE = """<div class="share">
+<span>Compartilhar:</span>
+<a href="https://twitter.com/intent/tweet?text={text_enc}&url={url_enc}" target="_blank" rel="noopener">X</a>
+<a href="https://wa.me/?text={text_enc}%20{url_enc}" target="_blank" rel="noopener">WhatsApp</a>
+<button type="button" onclick="grNativeShare(this,'{url_js}','{title_js}')">Mais opções</button>
+<button type="button" onclick="grCopyLink(this,'{url_js}')">Copiar link</button>
+</div>
+<script>
+function grNativeShare(btn,url,title){{
+  if(navigator.share){{navigator.share({{title:title,url:url}}).catch(function(){{}});}}
+  else{{grCopyLink(btn,url);}}
+}}
+function grCopyLink(btn,url){{
+  navigator.clipboard.writeText(url).then(function(){{
+    var orig=btn.textContent;btn.textContent='Copiado!';
+    setTimeout(function(){{btn.textContent=orig;}},1500);
+  }});
+}}
+</script>"""
 
 CLUSTER_TEMPLATE = """<div class="cluster">
 <div class="section-label">Sobre isso, leia também</div>
@@ -613,12 +664,12 @@ INDEX_TEMPLATE = """<!doctype html>
 <div class="wrap">
 <h1>Blog do Grana</h1>
 <p class="meta">Finanças pessoais sem economês, sem culpa, com número na mesa.</p>
+<div class="section-label">Mais recente</div>
+{featured_card}
 <div class="section-label">Dados ao vivo</div>
 {dado_vivo_cards}
 <div class="section-label">Temas</div>
 {pillar_cards}
-<div class="section-label">Mais recente</div>
-{featured_card}
 <div class="section-label">Todos os posts</div>
 {cards}
 <a class="cta" href="https://www.suagrana.app">Calcular meu custo de sobrevivência →</a>
@@ -744,6 +795,12 @@ def main():
         faqs = extract_faq(body)
         schema = build_structured_data(titulo, meta, url, faqs, pub_date, author)
 
+        title_js = html.escape(titulo).replace("\\", "\\\\").replace("'", "\\'")
+        share_html = SHARE_TEMPLATE.format(
+            text_enc=urllib.parse.quote(titulo), url_enc=urllib.parse.quote(url, safe=""),
+            url_js=url, title_js=title_js,
+        )
+
         if slug in cover_slugs:
             cover_url = f"{SITE_URL}/images/covers/{slug}.jpg"
             og_image_tags = (
@@ -761,6 +818,7 @@ def main():
             body_html=body_html, cluster_html=cluster_html, url=url, schema=schema, ga4=ga4,
             pub_date=pub_date, pub_date_br=pub_date_br, author=author_byline_html(author),
             sources_html=sources_html, og_image_tags=og_image_tags, cover_html=cover_html,
+            share_html=share_html,
         )
         (POSTS_DIR / f"{slug}.html").write_text(html_out, encoding="utf-8")
         cards.append((
