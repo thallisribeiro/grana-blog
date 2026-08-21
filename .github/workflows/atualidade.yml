@@ -172,10 +172,18 @@ jobs:
             que o carrossel foi derivado e salvo, ou "sem novidade relevante hoje,
             não publiquei", ou o erro exato se o push falhou. Nunca afirme sucesso que
             não aconteceu de verdade.
+          # max-turns 65 (subiu de 40 em 2026-08-21): achado real, job "post-atualidade"
+          # falhou com "Claude reported a successful result after 48 turns, exceeding
+          # the configured maximum of 40". Pesquisa+post+carrossel na mesma sessão
+          # passou a precisar de mais turnos do que quando só escrevia o post; o
+          # trabalho tinha sido concluído de verdade (post e carrossel publicados),
+          # a Action só reportou falha por estourar o teto -- nunca virou args do CLI,
+          # fica fora do bloco `claude_args` de propósito (dentro do `|` os `#` não
+          # são comentário, viram argumento literal e quebram a chamada).
           claude_args: |
             --model claude-sonnet-5
             --allowedTools "Bash,Read,Write,Edit,Glob,Grep,WebSearch"
-            --max-turns 40
+            --max-turns 65
           # Sem isso, o log fica "hidden for security" e não dá pra saber se um dia sem
           # post novo foi decisão (sem novidade relevante) ou falha silenciosa -- achado
           # real, 2026-08-16 (o primeiro dia sem post não dava pra distinguir um do outro).
