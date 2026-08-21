@@ -33,6 +33,17 @@ jobs:
       - name: Garantir mínimo de 2 posts/dia (puxa evergreen extra se atualidade pulou hoje)
         run: python pull_forward_if_no_atualidade.py
 
+      - name: Gerar prompt de capa pra post novo que ainda não tem (nunca sobrescreve)
+        run: python build_cover_prompts.py
+
+      - name: Gerar capas de post que ainda faltam (Pollinations, grátis, sem chave)
+        # Roda em Python puro via HTTP -- ComfyUI/FLUX local não roda no runner do
+        # GitHub Actions (precisa do PC ligado). Decisão do usuário, 2026-08-21:
+        # "quero que já saia com imagem", não depois via geração manual.
+        run: python generate_cover_pollinations.py
+        continue-on-error: true # Pollinations é serviço de terceiro sem SLA -- uma
+          # falha pontual não pode travar o build; a capa fica pendente pro próximo run
+
       - name: Atualizar dado vivo (taxas do Banco Central, API pública sem chave)
         run: python update_live_data.py
         continue-on-error: true # API do BACEN fora do ar não pode travar o build inteiro --
@@ -129,6 +140,6 @@ jobs:
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
           git config user.name "grana-blog-bot"
           git config user.email "actions@github.com"
-          git add publish-schedule.json live-data.json
-          git diff --staged --quiet || git commit -m "chore: atualiza cronograma e dado vivo [skip ci]"
+          git add publish-schedule.json live-data.json cover-manifest.json images/covers/
+          git diff --staged --quiet || git commit -m "chore: atualiza cronograma, dado vivo e capas [skip ci]"
           git push || true

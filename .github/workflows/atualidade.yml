@@ -197,6 +197,16 @@ jobs:
       - name: Agendar posts novos (não reatribui data de post já agendado)
         run: python build_schedule.py
 
+      - name: Gerar prompt de capa pro post de hoje (nunca sobrescreve)
+        run: python build_cover_prompts.py
+
+      - name: Gerar capa do post de hoje (Pollinations, grátis, sem chave)
+        # Mesma nota de rebuild.yml: ComfyUI/FLUX local não roda no runner do GitHub
+        # Actions. Decisão do usuário, 2026-08-21: "quero que já saia com imagem".
+        run: python generate_cover_pollinations.py
+        continue-on-error: true # Pollinations é serviço de terceiro sem SLA -- uma
+          # falha pontual não pode travar o post do dia
+
       - name: Atualizar dado vivo (taxas do Banco Central, API pública sem chave)
         run: python update_live_data.py
         continue-on-error: true # ver mesma nota em rebuild.yml -- API do BACEN fora do ar
@@ -224,6 +234,6 @@ jobs:
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
           git config user.name "grana-blog-bot"
           git config user.email "actions@github.com"
-          git add publish-schedule.json live-data.json
-          git diff --staged --quiet || git commit -m "chore: atualiza cronograma e dado vivo [skip ci]"
+          git add publish-schedule.json live-data.json cover-manifest.json images/covers/
+          git diff --staged --quiet || git commit -m "chore: atualiza cronograma, dado vivo e capas [skip ci]"
           git push || true
