@@ -244,6 +244,7 @@ def md_to_html(body: str) -> str:
     i = 0
     list_buffer = []
     list_type = None
+    para_buffer = []
 
     def flush_list():
         nonlocal list_buffer, list_type
@@ -256,39 +257,58 @@ def md_to_html(body: str) -> str:
             list_buffer = []
             list_type = None
 
+    def flush_para():
+        # Um `\n` isolado dentro do markdown-fonte é só quebra de linha suave (o autor
+        # deu Enter no meio da frase pra não passar de N colunas no editor) -- markdown
+        # de verdade trata isso como espaço, não como parágrafo novo. Bug real achado
+        # 2026-08-21: cada linha virava um <p> próprio, e cada <p> tem margin -- o
+        # "espaçamento gigante" que o usuário reportou era isso, não line-height.
+        nonlocal para_buffer
+        if para_buffer:
+            out.append(f"<p>{md_inline(' '.join(para_buffer))}</p>")
+            para_buffer = []
+
     while i < len(lines):
         line = lines[i].strip()
         if not line:
             flush_list()
+            flush_para()
             i += 1
             continue
         if line.startswith("### "):
             flush_list()
+            flush_para()
             out.append(f"<h3>{md_inline(line[4:])}</h3>")
         elif line.startswith("## "):
             flush_list()
+            flush_para()
             out.append(f"<h2>{md_inline(line[3:])}</h2>")
         elif line.startswith("# "):
             flush_list()
+            flush_para()
             # H1 já vira o <h1> do template, pula linha do corpo pra não duplicar
         elif re.match(r"^\d+\.\s+", line):
+            flush_para()
             if list_type != "ol":
                 flush_list()
                 list_type = "ol"
             list_buffer.append(re.sub(r"^\d+\.\s+", "", line))
         elif line.startswith("- "):
+            flush_para()
             if list_type != "ul":
                 flush_list()
                 list_type = "ul"
             list_buffer.append(line[2:])
         elif line.startswith("> "):
             flush_list()
+            flush_para()
             out.append(f"<blockquote>{md_inline(line[2:])}</blockquote>")
         else:
             flush_list()
-            out.append(f"<p>{md_inline(line)}</p>")
+            para_buffer.append(line)
         i += 1
     flush_list()
+    flush_para()
     return "\n".join(out)
 
 def strip_md(text: str) -> str:
